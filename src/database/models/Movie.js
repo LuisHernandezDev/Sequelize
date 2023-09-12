@@ -1,35 +1,36 @@
 const { DataTypes } = require('sequelize');
 
-module.exports = (sequelize, Datatypes) => {
+
+module.exports = (sequelize, DataTypes) => {
 
     const alias = "Movie";
 
     const cols = {
         id: {
-            type: Datatypes.INTEGER,
+            type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
-            allowNull: false
+            allowNull: false // Permitir nulo, false o true
         },
     
         title: {
-            type: Datatypes.STRING,
+            type: DataTypes.STRING,
             allowNull: false
 
         },
         rating: {
-            type: Datatypes.DECIMAL(3, 1),
+            type: DataTypes.DECIMAL(3, 1),
             allowNull: false
 
         },
         awards: {
-            type: Datatypes.INTEGER,
+            type: DataTypes.INTEGER,
             allowNull: false
 
         },
         release_date: {
             type: DataTypes.DATE,
-            allowNull: true
+            allowNull: false
           },
         
         length: {
@@ -41,8 +42,8 @@ module.exports = (sequelize, Datatypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'Genre', // Nombre del modelo al que hace referencia
-                key: 'id' // Nombre de la columna en la tabla Genre
+                model: "Genre", // Nombre del modelo al que hace referencia
+                key: "id" // Nombre de la columna en la tabla Genre
             }
         },
 
@@ -50,10 +51,26 @@ module.exports = (sequelize, Datatypes) => {
 
     const config = {
         tableName: "movies", // Colocar el nombre exacto de la tabla
-        timestamps: false
+        timestamps: false // Esto quiere decir que no intente crear las columnas created_at y updated_at
     }
 
     const Movie = sequelize.define(alias, cols, config);
+
+    Movie.associate = (models) => {
+        Movie.belongsTo(models.Genre, { 
+            as: "genre",
+            foreignKey: "genre_id"
+        });
+
+        Movie.belongsToMany(models.Actor, {
+            as: "actors",
+            through: "actor_movie",
+            foreignKey: "movie_id",
+            otherKey: "actor_id",
+            timestamps: false
+        })
+
+      };
 
     return Movie;
 

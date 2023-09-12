@@ -6,7 +6,6 @@ const controller = {
         try {
             const genres = await db.Genre.findAll({ raw: true });
             res.render("genresList", { genres });
-            console.log(genres);
 
         } catch (error) {
             res.send("Error");
@@ -18,7 +17,6 @@ const controller = {
         try {
             const genre = await db.Genre.findByPk(req.params.id, { raw: true });
             res.render("genresDetail", { genre });
-            console.log(genre);
 
         } catch (error) {
             res.send("Error");

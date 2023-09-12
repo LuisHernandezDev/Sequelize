@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Editar pelicula</h1>
+    <form action="/movies/<%= movie.id %>/edit?_method=PUT" method="post">
+        <label for="title"> Nombre:</label>
+        <input type="text" name="title" value="<%= movie.title %>">
+
+        <label for="title"> Rating:</label>
+        <input type="text" name="rating" value="<%= movie.rating %>">
+
+        <label for="title"> Awards:</label>
+        <input type="text" name="awards" value="<%= movie.awards %>">
+
+        <label for="title"> Fecha de lanzamiento:</label>
+        <input type="date" name="release_date" value="<%= movie.release_date.toISOString().split('T')[0] %>">
+
+        <select name="genre_id">
+            <% genres.forEach(genre=> { %>
+                <option value="<%= genre.id %>" <% if (genre.id===movie.genre_id) { %>selected<% } %>>
+                        <%= genre.name %>
+                </option>
+                <% }) %>
+
+        </select>
+
+        <input type="submit" value="Editar película"><br><br>
+
+
+        <a href="/movies">
+            <button>Volver al detalle de la película</button>
+        </a>
+    </form>
+
+</body>
+
+</html>
