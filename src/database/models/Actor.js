@@ -11,16 +11,6 @@ module.exports = (sequelize, Datatypes) => {
             autoIncrement: true,
             allowNull: false
         },
-
-        created_at: {
-            type: Datatypes.DATE,
-            allowNull: false,
-
-          },
-          updated_at: {
-            type: Datatypes.DATE,
-            allowNull: false,
-          },
     
         first_name: {
             type: Datatypes.STRING,
@@ -39,11 +29,11 @@ module.exports = (sequelize, Datatypes) => {
 
         },
         favorite_movie_id: {
-            type: DataTypes.INTEGER,
+            type: Datatypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'Movie', // Nombre del modelo al que hace referencia
-                key: 'id' // Nombre de la columna en la tabla Movie
+                model: 'movies', // Nombre de la tabla a la que hace referencia
+                key: 'id' // Nombre de la columna en la tabla movies
             }
         },
 
@@ -57,11 +47,10 @@ module.exports = (sequelize, Datatypes) => {
     const Actor = sequelize.define(alias, cols, config);
 
     Actor.associate = (models) => {
-        Actor.belongsToMany(models.Actor, { 
-            as: "movies",
-            through: "actor_movie",
-            foreignKey: "actor_id",
-            otherKey: "movie_id",
+        Actor.belongsToMany(models.Movie, { 
+            as: "movies", // Nombre de la relación
+            through: "ActorMovie", // Nombre del alias de la tabla intermedia
+            foreignKey: "actor_id", // foreignKey que hace referencia a este modelo.
             timestamps: false
         });
 

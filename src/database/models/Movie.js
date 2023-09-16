@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             allowNull: false // Permitir nulo, false o true
         },
-    
+
         title: {
             type: DataTypes.STRING,
             allowNull: false
@@ -31,8 +31,8 @@ module.exports = (sequelize, DataTypes) => {
         release_date: {
             type: DataTypes.DATE,
             allowNull: false
-          },
-        
+        },
+
         length: {
             type: DataTypes.INTEGER,
             allowNull: true
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: "Genre", // Nombre del modelo al que hace referencia
+                model: "genres", // Nombre de la tabla a la que hace referencia
                 key: "id" // Nombre de la columna en la tabla Genre
             }
         },
@@ -57,21 +57,21 @@ module.exports = (sequelize, DataTypes) => {
     const Movie = sequelize.define(alias, cols, config);
 
     Movie.associate = (models) => {
-        Movie.belongsTo(models.Genre, { 
+        Movie.belongsTo(models.Genre, { // 1 película pertenece a 1 género // Acá el nombre del modelo debe coincidir con el alias.
             as: "genre",
+            timestamps: false,
             foreignKey: "genre_id"
         });
 
-        Movie.belongsToMany(models.Actor, {
-            as: "actors",
-            through: "actor_movie",
-            foreignKey: "movie_id",
-            otherKey: "actor_id",
-            timestamps: false
-        })
+            Movie.belongsToMany(models.Actor, {
+                as: "actors", // Nombre de la relación
+                through: "ActorMovie", // Nombre del alias de la tabla intermedia
+                foreignKey: "movie_id", // foreignKey que hace referencia a este modelo.
+                timestamps: false
+            });
 
-      };
+        };
 
-    return Movie;
+        return Movie;
 
-}
+    }

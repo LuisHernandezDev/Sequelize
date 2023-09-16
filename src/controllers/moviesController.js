@@ -6,8 +6,10 @@ const controller = {
     list: async (req, res) => {
         try {
             // Utiliza el modelo Movie desde la constante db
-            const movies = await db.Movie.findAll({
-                include: [{ association: "genre" }],
+            const movies = await db.Movie.findAll({ 
+                raw: true,
+                include: "genre",
+                nest: true
             });
 
             res.render('moviesList', { movies });
@@ -19,11 +21,16 @@ const controller = {
         }
     },
 
-    detail: async (req, res) => {
+    getDetail: async (req, res) => {
         const id = req.params.id
         try {
 
-            const movie = await db.Movie.findByPk(id, { raw: true })
+            const movie = await db.Movie.findByPk(id, { 
+                raw: true,
+                include: "genre",
+                nest: true
+            })
+            console.log(movie);
             res.render('moviesDetail', { movie });
 
         } catch (error) {
@@ -71,7 +78,8 @@ const controller = {
     getCreate: async (req, res) => {
 
         try {
-            const genres = await db.Genre.findAll()
+            const genres = await db.Genre.findAll();
+
             res.render('moviesCreate', { genres })
 
         } catch (error) {
@@ -98,8 +106,6 @@ const controller = {
             console.error(error);
             res.send('Error');
         }
-
-        console.log(newMovie);
 
     },
 
@@ -148,7 +154,7 @@ const controller = {
             const movie = await db.Movie.findByPk(movieId);
 
             if (!movie) { // Preguntamos Sí movie no existe
-                res.status(404).send('Película no encontrada');
+                res.send('Película no encontrada');
             }
 
             await db.Movie.destroy({

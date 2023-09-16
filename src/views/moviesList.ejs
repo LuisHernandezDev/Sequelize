@@ -13,12 +13,13 @@
     <figure>
         <img src="/img/logo-DH.png" alt="Logo Digital House">
     </figure>
-    <h1>LISTADO DE PELÍCULAS</h1>
-    <ul>
+    <h1>LISTADO DE PELÍCULAS</h1><br>
+    <a href="/movies/add"><button>Crear Película</button></a>
+    <ul><br>
         <% for( let i=0; i < movies.length; i++ ) { %>
             <li>
                 <a href="/movies/<%= movies[i].id %>/detail">
-                    <%= movies[i].title %>
+                    <%= movies[i].title + ' - ' + movies[i].genre.name%>
                 </a>
             </li>
             <% } %>

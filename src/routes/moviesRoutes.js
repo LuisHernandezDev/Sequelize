@@ -5,7 +5,7 @@ const moviesController = require('../controllers/moviesController');
 router.get('/movies', moviesController.list);
 router.get('/movies/new', moviesController.new);
 router.get('/movies/recommended', moviesController.recomended);
-router.get('/movies/:id/detail', moviesController.detail);
+router.get('/movies/:id/detail', moviesController.getDetail);
 router.get('/movies/add', moviesController.getCreate);
 router.post('/movies/create', moviesController.postCreate);
 router.get('/movies/:id/edit', moviesController.getEdit);

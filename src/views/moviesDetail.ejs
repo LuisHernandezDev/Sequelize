@@ -16,17 +16,21 @@
     <p>RATING: <%= movie.rating %> </p>
     <p>AWARDS: <%= movie.awards %> </p>
     <p>LENGTH: <%= movie.length + ' min'%> </p>
-    <p>RELEASE DATE: <%= movie.release_date %> </p><br>
-
+    <p>RELEASE DATE: <%= movie.release_date %> </p>
+    <p>GÉNERO: <%= movie.genre.name %></p>
+    <br>
+<section>
     <a href="/movies/<%= movie.id %>/edit">
     <button>Editar película</button>
 </a><br><br>
+<form action="/movies/<%= movie.id %>/delete?_method=DELETE" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta película?');">
+    <input type="submit" value="Eliminar película">
+</form><br>
 <a href="/movies">
     <button>Volver al listado de películas</button>
 </a><br><br>
-<form action="/movies/<%= movie.id %>/delete?_method=DELETE" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta película?');">
-    <input type="submit" value="Eliminar película">
-</form>
 
+<a href="/movies/add"><button>Crear una nueva película</button></a>
+</section>
 </body>
 </html>
